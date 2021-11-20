@@ -1,10 +1,13 @@
 package co.edu.uis;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,6 +64,18 @@ public class GreetingController {
 	public List<Usuario> viewall(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return repository.findAll();
 
+	}
+
+	@PatchMapping("user/{id}")
+	public List<Usuario> updateUser(@PathVariable Long id, @RequestParam(value = "name", defaultValue = "") String name)  
+	throws ResourceNotFoundException{
+		Usuario us = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID necesario:" + id));
+
+		if (!name.equals("")){
+			us.setName(name);
+			repository.save(us);
+		}
+		return repository.findByName(name);
 	}
 
 	@PostMapping("/register")

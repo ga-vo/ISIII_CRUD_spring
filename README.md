@@ -16,3 +16,14 @@ __Para ejecutar usando el artefacto generado__ _java -jar target/demo-spring-0.0
 
 
 
+
+__Create:__
+_POST [http://localhost:8080/register?name=nombre]_
+__Read:__
+_GET [http://localhost:8080/view?name=nombre]_
+__Read:__
+_GET [http://localhost:8080/viewall]_
+__Update:__
+_PATCH [http://localhost:8080/user/id?nombre=nuevo_nombre]_
+__Delete:__
+DELETE [http://localhost:8080/delete?name=nombre]_
