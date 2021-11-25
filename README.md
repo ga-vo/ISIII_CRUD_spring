@@ -1,8 +1,10 @@
+## Andrés Felipe Cabeza Serrano - 2162106 
+## Gabriel Felipe Vega Ochoa - 2170122 
+
 # demo-spring
 Application demo usando Spring boot y maven como herramienta de build
 
-## Andrés Felipe Cabeza Serrano - 2162106 
-## Gabriel Felipe Vega Ochoa - 2170122 
+### Intrucciones
 
 __Para compilar:__
 _mvn compile_
