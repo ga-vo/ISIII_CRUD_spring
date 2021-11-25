@@ -86,4 +86,17 @@ public class GeetingControllerTests {
         }
     }
 
+    @Test
+    public void newUsuario() {
+        try {
+            Usuario nuevoUsuario = new Usuario("Duque", "FR");
+            when(usuarioRepository.save(nuevoUsuario)).thenReturn(nuevoUsuario);
+            final GreetingController gc = new GreetingController(usuarioRepository);
+            Usuario us = gc.newUsuario(nuevoUsuario.getName(), nuevoUsuario.getLang());
+            assertTrue(us.getName().equals(nuevoUsuario.getName()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
