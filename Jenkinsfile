@@ -1,38 +1,40 @@
 pipeline {
-  
-  agent any
-  
-  tools {
-    maven 'Maven 3.8.3'
-    jdk 'JDK11'
-  }
-  
-  stages {
-    
-    stage("build") {
-      steps {
-        echo 'This is the building phase'
-         sh 'mvn -Dmaven.test.failure.ignore=true install' 
-      }
-      post {
-        success {
-          junit 'target/surefire-reports/**/*.xml' 
-        }          
-      }
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "Maven 3.8.3"
+        jdk 'JDK11'
     }
-    
-    stage("test") {
-      steps {
-        echo 'This is the test phase'
-        echo 'The test phase has been done rigth!'
-      }
+
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git url:'https://github.com/ga-vo/ISIII_CRUD_spring.git', branch: 'main'
+
+                // Run Maven on a Unix agent.
+                sh "mvn -Dmaven.test.failure.ignore=true clean compile package"
+
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.jar'
+                }
+            }
+        }
+        // fase para compilar  
+        stage("compile"){
+            steps {
+                echo 'Compiling...'
+                sh 'java -jar target/*.jar'
+            }
+        }
     }
-    
-    stage("deploy") {
-      steps {
-        echo 'This is the deploy phase'
-      }
-    }
-  }
 }
-    
