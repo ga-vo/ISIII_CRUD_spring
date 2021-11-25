@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
-                git url:'https://github.com/ga-vo/ISIII_CRUD_spring.git', branch: 'master'
+                git url:'https://github.com/ga-vo/ISIII_CRUD_spring.git', branch: 'main'
 
                 // Run Maven on a Unix agent.
                 sh "mvn -Dmaven.test.failure.ignore=true clean compile package"
