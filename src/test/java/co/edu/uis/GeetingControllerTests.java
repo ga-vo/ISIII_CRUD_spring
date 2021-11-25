@@ -22,6 +22,7 @@ public class GeetingControllerTests {
     private Usuario usuario1;
     private Usuario usuario2;
     private List<Usuario> usuarios;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -32,9 +33,24 @@ public class GeetingControllerTests {
 
     @Test
     public void viewAll() {
-        //view all length test
+        // view all length test
         final GreetingController gc = new GreetingController(usuarioRepository);
         when(usuarioRepository.findAll()).thenReturn(usuarios);
         assertTrue(gc.viewall("").size() == usuarios.size());
     }
+
+    @Test
+    public void view() {
+        try {
+            // view all length test
+            final GreetingController gc = new GreetingController(usuarioRepository);
+            when(usuarioRepository.findByName(usuario1.getName())).thenReturn(usuarios.subList(0, 1));
+            Usuario us;
+            us = gc.view(usuario1.getId());
+            assertTrue(us.getName().equals(usuario1.getName()));
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

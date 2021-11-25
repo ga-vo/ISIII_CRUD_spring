@@ -54,10 +54,9 @@ public class GreetingController {
 		}
 	}
 
-	@GetMapping("/view")
-	public List<Usuario> view(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return repository.findByName(name);
-
+	@GetMapping("/view/{id}")
+	public Usuario view(@PathVariable Long id) throws ResourceNotFoundException {
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID necesario:" + id));
 	}
 
 	@GetMapping("/viewall")
@@ -67,11 +66,11 @@ public class GreetingController {
 	}
 
 	@PatchMapping("user/{id}")
-	public List<Usuario> updateUser(@PathVariable Long id, @RequestParam(value = "name", defaultValue = "") String name)  
-	throws ResourceNotFoundException{
+	public List<Usuario> updateUser(@PathVariable Long id, @RequestParam(value = "name", defaultValue = "") String name)
+			throws ResourceNotFoundException {
 		Usuario us = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID necesario:" + id));
 
-		if (!name.equals("")){
+		if (!name.equals("")) {
 			us.setName(name);
 			repository.save(us);
 		}
@@ -79,23 +78,16 @@ public class GreetingController {
 	}
 
 	@PostMapping("/register")
-	Usuario newUsuario(@RequestParam(value = "name", defaultValue = "World") String name, @RequestParam(value = "lang", defaultValue = "EN") String lang) {
+	Usuario newUsuario(@RequestParam(value = "name", defaultValue = "World") String name,
+			@RequestParam(value = "lang", defaultValue = "EN") String lang) {
 		return repository.save(new Usuario(name, lang));
 	}
 
-	@DeleteMapping("/delete")
-	public Greeting deleteEmployee(@RequestParam(value = "name", defaultValue = "World") String name) {
-		List<Usuario> uss = repository.findByName(name);
-
-		if (uss != null) {
-			if (uss.size() < 1) {
-				return new Greeting(counter.incrementAndGet(), String.format(template_not, name));
-			}
-			Usuario us = uss.get(0);
-			repository.deleteById(us.getId());
-			return new Greeting(counter.incrementAndGet(), String.format("%s deleted!", name));
-		}
-		return new Greeting(counter.incrementAndGet(), String.format(template_not, name));
+	@DeleteMapping("/delete/{id}")
+	public Usuario deleteEmployee(@PathVariable Long id) throws ResourceNotFoundException {
+		Usuario us = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID necesario:" + id));
+		repository.deleteById(us.getId());
+		return us;
 
 	}
 
