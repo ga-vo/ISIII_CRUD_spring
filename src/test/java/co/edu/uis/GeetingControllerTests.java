@@ -1,14 +1,17 @@
 package co.edu.uis;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 public class GeetingControllerTests {
@@ -44,7 +47,8 @@ public class GeetingControllerTests {
         try {
             // view all length test
             final GreetingController gc = new GreetingController(usuarioRepository);
-            when(usuarioRepository.findByName(usuario1.getName())).thenReturn(usuarios.subList(0, 1));
+            // doReturn(us1).when(ur.findById(us1.getId()));
+            when(usuarioRepository.findById(usuario1.getId())).thenReturn(Optional.of(usuario1));
             Usuario us;
             us = gc.view(usuario1.getId());
             assertTrue(us.getName().equals(usuario1.getName()));
