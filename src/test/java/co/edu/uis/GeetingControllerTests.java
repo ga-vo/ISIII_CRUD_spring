@@ -1,7 +1,6 @@
 package co.edu.uis;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -11,7 +10,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 public class GeetingControllerTests {
@@ -52,6 +50,37 @@ public class GeetingControllerTests {
             Usuario us;
             us = gc.view(usuario1.getId());
             assertTrue(us.getName().equals(usuario1.getName()));
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void deleteEmployee() {
+        try {
+            // view all length test
+            final GreetingController gc = new GreetingController(usuarioRepository);
+            // doReturn(us1).when(ur.findById(us1.getId()));
+            when(usuarioRepository.findById(usuario1.getId())).thenReturn(Optional.of(usuario1));
+            Usuario us;
+            us = gc.deleteEmployee(usuario1.getId());
+            assertTrue(us.getName().equals(usuario1.getName()));
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void updateUser() {
+        try {
+            // view all length test
+            final GreetingController gc = new GreetingController(usuarioRepository);
+            // doReturn(us1).when(ur.findById(us1.getId()));
+            when(usuarioRepository.findById(usuario1.getId())).thenReturn(Optional.of(usuario1));
+            Usuario us;
+            String newName = "Gabriel Felipe";
+            us = gc.updateUser(usuario1.getId(), newName);
+            assertTrue(us.getName().equals(newName));
         } catch (ResourceNotFoundException e) {
             e.printStackTrace();
         }

@@ -66,7 +66,7 @@ public class GreetingController {
 	}
 
 	@PatchMapping("user/{id}")
-	public List<Usuario> updateUser(@PathVariable Long id, @RequestParam(value = "name", defaultValue = "") String name)
+	public Usuario updateUser(@PathVariable Long id, @RequestParam(value = "name", defaultValue = "") String name)
 			throws ResourceNotFoundException {
 		Usuario us = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID necesario:" + id));
 
@@ -74,7 +74,7 @@ public class GreetingController {
 			us.setName(name);
 			repository.save(us);
 		}
-		return repository.findByName(name);
+		return us;
 	}
 
 	@PostMapping("/register")
