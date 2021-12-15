@@ -36,5 +36,11 @@ pipeline {
                 sh 'java -jar target/*.jar'
             }
         }
+        
+        stage("success"){
+            steps {
+                echo 'Success...'                
+            }
+        }
     }
 }
